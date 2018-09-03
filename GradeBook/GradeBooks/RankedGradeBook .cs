@@ -18,39 +18,28 @@ namespace GradeBook.GradeBooks
             {
                 throw new InvalidOperationException("Ranked grading requires at least 5 students.");
             }
-
-            Students.OrderBy(students => students.AverageGrade).ToList();
-            Student targetStudent;
-            var ranking = 0;
-
-            foreach (Student student in Students)
-            {
-                if (student.AverageGrade == averageGrade)
-                {
-                    targetStudent = student;
-                    ranking = Students.IndexOf(targetStudent)+1;
-                    break;
-                }
-            }
-
-            if(ranking > (int)Math.Ceiling(Students.Count *.8))
+            var threshold = (int)Math.Ceiling(Students.Count * .2);
+            var grades = Students.OrderByDescending(s => s.AverageGrade).Select(a => a.AverageGrade).ToList();
+            if (grades[threshold - 1] <= averageGrade)
             {
                 return 'A';
             }
-            else if (ranking > (int)Math.Ceiling(Students.Count *.6))
+            else if (grades[2*threshold - 1] <= averageGrade)
             {
                 return 'B';
-            }   
-            else if (ranking > (int)Math.Ceiling(Students.Count *.4))
+            }
+            else if (grades[3*threshold - 1] <= averageGrade)
             {
                 return 'C';
-            } 
-            else if (ranking > (int)Math.Ceiling(Students.Count *.2))
+            }
+            else if (grades[4*threshold - 1] <= averageGrade)
             {
                 return 'D';
             }
-
-            return 'F';
+            else
+            {
+                return 'F';
+            }
         }
     }
 }
