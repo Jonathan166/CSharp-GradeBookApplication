@@ -109,21 +109,28 @@ namespace GradeBook.GradeBooks
 
         public virtual double GetGPA(char letterGrade, StudentType studentType)
         {
-            int gpa = 0;
+            var gpa = 0;
             switch (letterGrade)
             {
                 case 'A':
-                    gpa = IsWeighted ? 5 : 4;
+                    gpa = 4;
                     break;
                 case 'B':
-                    gpa = IsWeighted ? 4 : 3;
+                    gpa = 3;
                     break;
                 case 'C':
-                    gpa = IsWeighted ? 3 : 2;
+                    gpa = 2;
                     break;
                 case 'D':
-                    gpa = IsWeighted ? 2 : 1;
+                    gpa = 1;
                     break;
+                case 'F':
+                    gpa = 0;
+                    break;
+            }
+            if(IsWeighted && (studentType == StudentType.Honors || studentType == StudentType.DualEnrolled))
+            {
+                gpa++;
             }
             return gpa;
         }
@@ -269,7 +276,7 @@ namespace GradeBook.GradeBooks
                              from type in assembly.GetTypes()
                              where type.FullName == "GradeBook.GradeBooks.StandardGradeBook"
                              select type).FirstOrDefault();
-            
+
             return JsonConvert.DeserializeObject(json, gradebook);
         }
     }
