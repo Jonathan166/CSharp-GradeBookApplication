@@ -33,26 +33,23 @@ namespace GradeBook.GradeBooks
                 }
             }
 
-            if(ranking > (Students.Count *.8))
+            if(ranking > (int)Math.Ceiling(Students.Count *.8))
             {
                 return 'A';
             }
-            else if (ranking > (Students.Count *.6))
+            else if (ranking > (int)Math.Ceiling(Students.Count *.6))
             {
                 return 'B';
             }   
-            else if (ranking > (Students.Count *.4))
+            else if (ranking > (int)Math.Ceiling(Students.Count *.4))
             {
                 return 'C';
             } 
-            else if (ranking > (Students.Count *.2))
+            else if (ranking > (int)Math.Ceiling(Students.Count *.2))
             {
                 return 'D';
             }
-            else
-            {
-                return 'F';
-            }
+
             return 'F';
         }
     }
